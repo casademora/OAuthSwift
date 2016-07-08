@@ -23,7 +23,7 @@ public class OAuthWebViewController: OAuthViewController, OAuthSwiftURLHandlerTy
 
     public func handle(_ url: URL) {
         // do UI in main thread
-        if Thread.isMainThread() {
+        if Thread.isMainThread {
              doHandle(url)
         }
         else {
@@ -51,7 +51,7 @@ public class OAuthWebViewController: OAuthViewController, OAuthSwiftURLHandlerTy
                 self.updateUserActivity(OAuthWebViewController.userActivityType, userInfo: nil, webpageURL: url)
             }
         #elseif os(OSX)
-            if let p = self.parentViewController { // default behaviour if this controller affected as child controller
+            if let p = self.parent { // default behaviour if this controller affected as child controller
                 p.presentViewControllerAsModalWindow(self)
             } else if let window = self.view.window {
                 window.makeKeyAndOrderFront(nil)
@@ -64,11 +64,11 @@ public class OAuthWebViewController: OAuthViewController, OAuthSwiftURLHandlerTy
         #if os(iOS) || os(tvOS)
             self.dismiss(animated: true, completion: nil)
         #elseif os(watchOS)
-            self.dismissController()
+            self.dismiss()
         #elseif os(OSX)
-            if self.presentingViewController != nil { // if presentViewControllerAsModalWindow
-                self.dismissController(nil)
-                if self.parentViewController != nil {
+            if self.presenting != nil { // if presentViewControllerAsModalWindow
+                self.dismiss(nil)
+                if self.parent != nil {
                     self.removeFromParentViewController()
                 }
             }

@@ -9,7 +9,7 @@
 import Foundation
 
 extension Int {
-    public func bytes(_ totalBytes: Int = sizeof(Int)) -> [UInt8] {
+    public func bytes(_ totalBytes: Int = sizeof(Int.self)) -> [UInt8] {
         return arrayOfBytes(self, length: totalBytes)
     }
 }
@@ -22,7 +22,7 @@ func arrayOfBytes<T>(_ value:T, length:Int? = nil) -> [UInt8] {
     
     let bytesPointer = UnsafeMutablePointer<UInt8>(valuePointer)
     var bytes = [UInt8](repeating: 0, count: totalBytes)
-    for j in 0..<min(sizeof(T),totalBytes) {
+    for j in 0..<min(sizeof(T.self),totalBytes) {
         bytes[totalBytes - 1 - j] = (bytesPointer + j).pointee
     }
     

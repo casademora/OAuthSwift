@@ -45,11 +45,11 @@ public class OAuthSwift: NSObject {
 
     var observer: AnyObject?
     class var notificationCenter: NotificationCenter {
-        return NotificationCenter.default()
+        return NotificationCenter.default
     }
 
     func observeCallback(_ block: (url: URL) -> Void) {
-        self.observer = OAuthSwift.notificationCenter.addObserver(forName: NSNotification.Name(rawValue: CallbackNotification.notificationName), object: nil, queue: OperationQueue.main()){
+        self.observer = OAuthSwift.notificationCenter.addObserver(forName: NSNotification.Name(rawValue: CallbackNotification.notificationName), object: nil, queue: OperationQueue.main){
             notification in
             self.removeCallbackNotificationObserver()
 

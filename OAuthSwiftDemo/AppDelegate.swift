@@ -23,7 +23,7 @@ import OAuthSwift
 // MARK: handle callback url
 extension AppDelegate {
     
-    func applicationHandleOpenURL(url: NSURL) {
+    func applicationHandleOpenURL(url: URL) {
         if (url.host == "oauth-callback") {
             OAuthSwift.handleOpenURL(url)
         } else {
@@ -54,7 +54,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     @available(iOS 9.0, *)
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        applicationHandleOpenURL(url)
+        applicationHandleOpenURL(url: url)
         return true
     }
 }
@@ -64,17 +64,17 @@ extension AppDelegate: NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // listen to scheme url
-        NSAppleEventManager.sharedAppleEventManager().setEventHandler(self, andSelector:"handleGetURLEvent:withReplyEvent:", forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+        NSAppleEventManager.shared().setEventHandler(self, andSelector:"handleGetURLEvent:withReplyEvent:", forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
 
     func handleGetURLEvent(event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-        if let urlString = event.paramDescriptorForKeyword(AEKeyword(keyDirectObject))?.stringValue, url = NSURL(string: urlString) {
-            applicationHandleOpenURL(url)
+        if let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue, url = URL(string: urlString) {
+            applicationHandleOpenURL(url: url)
         }
     }
 
     class var sharedInstance: AppDelegate {
-        return NSApplication.sharedApplication().delegate as! AppDelegate
+        return NSApplication.shared().delegate as! AppDelegate
     }
     
 }

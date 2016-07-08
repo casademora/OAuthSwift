@@ -33,7 +33,7 @@ public class OAuthSwiftOpenURLExternally: OAuthSwiftURLHandlerType {
         #elseif os(watchOS)
         // WATCHOS: not implemented
         #elseif os(OSX)
-            NSWorkspace.sharedWorkspace().openURL(url)
+            _ = NSWorkspace.shared().open(url)
         #endif
     }
 }
@@ -70,14 +70,14 @@ import SafariServices
             
             let key = UUID().uuidString
             
-            observers[key] = NotificationCenter.default().addObserver(
+            observers[key] = NotificationCenter.default.addObserver(
                 forName: NSNotification.Name(rawValue: OAuthSwift.CallbackNotification.notificationName),
                 object: nil,
-                queue: OperationQueue.main(),
+                queue: OperationQueue.main,
                 using:{ [unowned self]
                     notification in
                     if let observer = self.observers[key] {
-                        NotificationCenter.default().removeObserver(observer)
+                        NotificationCenter.default.removeObserver(observer)
                         self.observers.removeValue(forKey: key)
                     }
                     

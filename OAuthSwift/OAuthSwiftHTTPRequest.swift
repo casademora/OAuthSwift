@@ -114,9 +114,9 @@ public class OAuthSwiftHTTPRequest: NSObject, URLSessionDelegate, OAuthSwiftRequ
             if self.cancelRequested {
                 return
             }
-            self.session = URLSession(configuration: URLSessionConfiguration.default(),
+            self.session = URLSession(configuration: URLSessionConfiguration.default,
                 delegate: self,
-                delegateQueue: OperationQueue.main())
+                delegateQueue: OperationQueue.main)
             self.task = self.session.dataTask(with:  self.request! as URLRequest) { [unowned self] (data, response, error) in
             
                 #if os(iOS)
